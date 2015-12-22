@@ -51,7 +51,7 @@ angular.module('app').factory('Profile', function (DS) {
                 type: 'date'
             },
 
-            isActive: {
+            isActivated: {
                 type: 'boolean',
                 defaultsTo: false
             },

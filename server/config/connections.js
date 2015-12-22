@@ -61,8 +61,8 @@ module.exports.connections = {
     host: '127.0.0.1',
     port: 27017,
     user: 'local',
-    password: 'password',
-    database: 'APP_NAME'
+    password: 'local',
+    database: 'nodegeeks-blog'
   },
 
   /***************************************************************************

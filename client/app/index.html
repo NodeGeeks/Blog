@@ -9,11 +9,37 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="assets/fonts/open-sans/stylesheet.css" rel="stylesheet">
+
+    <!-- Font awesome -->
+    <link href="assets/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Font line icons -->
+    <link href="assets/css/simple-line-icons.css" rel="stylesheet">
+
+    <!-- Overwrite bootstrap styles -->
+    <link href="assets/css/overwrite.css" rel="stylesheet">
+
+    <!-- animate -->
+    <link href="assets/css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!--[if IE 8]>
+    <link href="assets/css/style.ie.css" rel="stylesheet">
+    <![endif]-->
     <base href="/">
 </head>
 <body ng-app="app">
@@ -22,9 +48,173 @@
     your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<!-- Add your site or application content here -->
+<div id="loading" class="loading-invisible">
+    <i class="fa fa-refresh fa-4x fa-spin"></i><br/>
 
-<div ng-view=""></div>
+    <p>Please wait...</p>
+</div>
+<script type="text/javascript">
+    document.getElementById("loading").className = "loading-visible";
+    var hideDiv = function () {
+        document.getElementById("loading").className = "loading-invisible";
+    };
+    var oldLoad = window.onload;
+    var newLoad = oldLoad ? function () {
+        hideDiv.call(this);
+        oldLoad.call(this);
+    } : hideDiv;
+    window.onload = newLoad;
+</script>
+<!-- Add your site or application content here -->
+<header>
+    <!-- Start navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="assets/img/NodeGeeks%20Logo.png" class="scroller-logo" alt=""/>
+                    <img src="assets/img/NodeGeeks%20Logo.png" class="default-logo" alt=""/>
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="http://nodegeeksllc.com">NodeGeeks</a></li>
+                    <li><a href="http://blog.nodegeeksllc.com">Blog</a></li>
+                    <li ng-hide="session"><a href="#login" class="login">Login</a></li>
+                    <li ng-show="session"><a href="" ng-click="logout()" class="login">Logout</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+    <!-- End navbar -->
+</header>
+<!-- End header -->
+<!-- Start inner heading -->
+<div class="inner-heading">
+    <div class="container">
+
+    </div>
+</div>
+<!-- End inner heading -->
+
+<!-- Start inner page -->
+<div class="inner-page">
+    <div class="container">
+        <div class="row">
+            <!-- Start article -->
+            <div class="col-md-8">
+                <div ng-view=""></div>
+            </div>
+            <div class="col-md-4">
+                <aside>
+                    <div class="widget">
+                        <form id="search-form">
+                            <fieldset class="search-wrapper">
+                                <input type="text" class="search" name="search" id="search" placeholder="Enter your search" />
+                                <button class="vbtn1 vbtn1-color" type="button"><img src="assets/img/search.png" alt="" /></button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="widget">
+                        <h5>Categories</h5>
+                        <ul class="cat">
+                            <li ng-repeat="category in categories"><a href="#category/{{category.slug}}">{{category.name}}</a></li>
+                        </ul>
+                    </div>
+                    <div class="widget">
+                        <h5>Popular product</h5>
+                        <ul class="popular-post">
+                            <li ng-repeat="article in featuredArticles">
+                                <a href="#{{article.slug}}"><img src="{{article.image}}" class="thumb" alt="" /></a>
+                                <h6 class="product-title"><a href="#profile/{{article.author.username}}">{{article.author.fullName}}</a></h6>
+                                <p>
+                                    {{article.shortTextContent}}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="widget">
+                        <h5>Tags</h5>
+                        <ul class="tags">
+                            <li ng-repeat="tag in tags"><a href="#tag/{{tag.slug}}"><i class="fa fa-tags"></i>{{tag.name}}</a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Start footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 widget">
+                <h5>About us</h5>
+
+                <p> NodeGeeks is a small software development company based out of Squaw Valley CA, and Colorado Springs
+                    CO. Focusing on JavaScript and NodeJS development, allowing your applications to be compatible
+                    on all devices for less then what you would pay anywhere else. </p>
+            </div>
+            <div class="col-md-2 widget">
+                <h5>Category</h5>
+                <ul class="footer-link">
+                    <li ng-repeat="category in categories"><a href="/#/category/{{category.name}}">{{category.name}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul class="social-link">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 widget">
+                <h5>Tags</h5>
+                <ul class="footer-link">
+                    <li ng-repeat="tag in tags"><a href="/#/tag/{{tag.name}}">{{tag.name}}</a></li>
+                </ul>
+            </div>
+            <!--<div class="col-md-4">-->
+            <!--<h5>Last from blog</h5>-->
+            <!--<ul class="recent">-->
+            <!--<li>-->
+            <!--<a href="#"><img src="img/blog/thumbnail/thumb01.jpg" class="alignleft" alt=""/></a>-->
+            <!--<h6><a href="#">Est quis urbanitas at</a></h6>-->
+
+            <!--<p>-->
+            <!--Est quis urbanitas at honestatis sea in utamur offendit ei nec.-->
+            <!--</p>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#"><img src="img/blog/thumbnail/thumb02.jpg" class="alignleft" alt=""/></a>-->
+            <!--<h6><a href="#">Sumo nobis sit ut sed</a></h6>-->
+
+            <!--<p>-->
+            <!--Rebum possit nec cu, graeci lobortis ad vix in modus zril per.-->
+            <!--</p>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="col-md-3 widget">-->
+            <!--<h5>latest tweet</h5>-->
+
+            <!--<div id="tweecool"></div>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <div class="subfooter">
+        <p>2015 &copy; Copyright <a href="http://{{app.domain}}">{{app.company}}</a> All rights Reserved.</p>
+    </div>
+</footer>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 
@@ -42,16 +232,40 @@
 <script src="bower_components/angular-sails/dist/angular-sails.js"></script>
 <script src="bower_components/angular-css/angular-css.js"></script>
 <script src="bower_components/hello/dist/hello.all.min.js"></script>
+<script src="bower_components/d3/d3.js"></script>
+<script src="bower_components/nvd3/build/nv.d3.js"></script>
+<script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <!-- start template tags -->
 <script type="text/javascript" src="scripts/app.js"></script>
+<script type="text/javascript" src="scripts/controllers/article.js"></script>
+<script type="text/javascript" src="scripts/controllers/blog.js"></script>
 <script type="text/javascript" src="scripts/controllers/controller.js"></script>
+<script type="text/javascript" src="scripts/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="scripts/js/custom.js"></script>
+<script type="text/javascript" src="scripts/js/flexslider/jquery.flexslider.js"></script>
+<script type="text/javascript" src="scripts/js/flexslider/setting.js"></script>
+<script type="text/javascript" src="scripts/js/html5shiv.min.js"></script>
+<script type="text/javascript" src="scripts/js/ie-emulation-modes-warning.js"></script>
+<script type="text/javascript" src="scripts/js/ie10-viewport-bug-workaround.js"></script>
+<script type="text/javascript" src="scripts/js/ie8-responsive-file-warning.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="scripts/js/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/js/navigation/navbar.js"></script>
+<script type="text/javascript" src="scripts/js/navigation/waypoints.min.js"></script>
+<script type="text/javascript" src="scripts/js/owlcarousel/owl.carousel.js"></script>
+<script type="text/javascript" src="scripts/js/owlcarousel/setting.js"></script>
+<script type="text/javascript" src="scripts/js/parallax/jquery.parallax-1.1.3.js"></script>
+<script type="text/javascript" src="scripts/js/parallax/setting.js"></script>
+<script type="text/javascript" src="scripts/js/respond.min.js"></script>
+<script type="text/javascript" src="scripts/js/totop/jquery.ui.totop.js"></script>
+<script type="text/javascript" src="scripts/js/totop/setting.js"></script>
+<script type="text/javascript" src="scripts/js/validation.js"></script>
 <script type="text/javascript" src="scripts/models/model.js"></script>
 <script type="text/javascript" src="scripts/nodegeeks/controllers/auth.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/controllers/countdown.js"></script>
 <script type="text/javascript" src="scripts/nodegeeks/controllers/setup.js"></script>
 <script type="text/javascript" src="scripts/nodegeeks/directives/form-wizard-step-input.js"></script>
 <script type="text/javascript" src="scripts/nodegeeks/directives/form-wizard-step.js"></script>
@@ -66,6 +280,7 @@
 <script type="text/javascript" src="scripts/nodegeeks/models/social.js"></script>
 <script type="text/javascript" src="scripts/nodegeeks/services/auth.js"></script>
 <script type="text/javascript" src="scripts/nodegeeks/services/ds.js"></script>
+<script type="text/javascript" src="scripts/nodegeeks/services/localStorage.js"></script>
 <script type="text/javascript" src="scripts/nodegeeks/services/notify.js"></script>
 <!-- end template tags -->
 <!-- endbuild -->

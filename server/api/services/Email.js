@@ -2,6 +2,9 @@
  * Created by aaronrussell on 10/29/15.
  */
 
+var nodemailer = require('nodemailer'),
+        directTransport = require('nodemailer-direct-transport');
+
 function HTMLEmailTemplate(body) {
     var templateString = ['<body background="images/bg.jpg">',
         '<table id="pageContainer" width="100%" align="center" background="images/bg.jpg" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; background-repeat:repeat; background-color:#eeeeee;">',

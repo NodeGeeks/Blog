@@ -2,7 +2,7 @@
  * Created by aaronrussell on 11/4/15.
  * @Description:
  */
-angular.module('app').service('Auth', function (Profile, $rootScope) {
+angular.module('app').service('Notify', function (Profile, $rootScope) {
 
     function Notify() {}
 
@@ -12,6 +12,6 @@ angular.module('app').service('Auth', function (Profile, $rootScope) {
         alert(message);
     };
 
-    return Notify;
+    return new Notify;
 
 });

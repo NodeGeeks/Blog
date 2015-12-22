@@ -31,9 +31,9 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-   cookie: {
-     maxAge: 24 * 60 * 60 * 1000
-   },
+   //cookie: {
+   //  maxAge: 24 * 60 * 60 * 1000
+   //},
 
   /***************************************************************************
   *                                                                          *
@@ -67,11 +67,11 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-   adapter: 'mongo',
-   host: '127.0.0.1',
-   port: 27017,
-   db: 'APP_DB_DATABASE',
-   collection: 'sessions',
+   //adapter: 'mongo',
+   //host: 'localhost',
+   //port: 27017,
+   //db: 'nodegeeks-blog',
+   //collection: 'sessions',
 
   /***************************************************************************
   *                                                                          *
@@ -82,10 +82,10 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-   username: 'APP_DB_USER',
-   password: 'APP_DB_PASS',
-   auto_reconnect: false,
-   ssl: false,
-  // stringify: true
+   //username: 'local',
+   //password: 'local',
+   //auto_reconnect: false,
+   //ssl: false,
+   //stringify: true
 
 };

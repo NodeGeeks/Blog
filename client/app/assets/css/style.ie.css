@@ -1,0 +1,44 @@
+/*
+Navigation
+=========================== */
+.static-nav-collapse,
+.top-nav-collapse{
+	border-bottom:solid 1px #f0f0f0;
+}
+
+/*
+Diamonds
+=========================== */
+.diamondswrap{
+	padding:10px 55px 10px 60px !important;
+	display:inline-block;
+}
+
+.diamondswrap .item{
+	position:relative;
+	margin:5px;
+	width:200px;
+	height:200px;
+	float:left;
+	display:block;
+}
+
+.diamondswrap .item img{
+	position:relative;
+	width:200px;
+	height:200px;
+}
+
+/*
+Flexslider
+=========================== */
+.flex-control-nav li {
+	margin: 0 5px; padding:4px;border:5px solid #ccc;display: inline-block; zoom: 1; *display: inline;
+}
+
+/*
+Tab
+=========================== */
+.nav-tabs > li > a{
+	background:#555;
+}

@@ -20,6 +20,9 @@ angular.module('app').service('LocalStorage', function () {
                 return console.error('Cannot set a function as a value');
             }
             return localStorage.setItem(key, value);
+        },
+        removeItem: function(key) {
+            return localStorage.removeItem(key);
         }
     }
 

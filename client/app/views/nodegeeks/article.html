@@ -1,0 +1,57 @@
+<article>
+    <div class="post-thumbnail">
+        <div class="article-meta">
+            <div class="meta-author">
+                <i class="fa fa-user fa-2x"></i>
+                <a href="#">{{article.author.fullName}}</a>
+            </div>
+            <div class="meta-date">
+                <i class="fa fa-calendar fa-2x"></i>
+                <a href="#">{{article.createdAt}}</a>
+            </div>
+            <div class="meta-comments">
+                <i class="fa fa-comments fa-2x"></i>
+                <a href="#">{{article.comments.length}}</a>
+            </div>
+        </div>
+        <a href="#"><img src="img/blog/img1.jpg" class="img-responsive" alt="" /></a>
+    </div>
+    <h4 class="article-heading"><a href="#">{{article.headline}}</a></h4>
+    {{article.content}}
+</article>
+<!-- End article 1 -->
+<div class="comment-wrapper">
+    <h4>Leave comments</h4>
+    <p ng-if="!session.id"> Please login to post comments</p>
+    <form class="row" ng-if="session.id">
+        <div class="col-md-12 marginbot30">
+            <textarea class="form-control input-lg" rows="9" name="message" placeholder="Your comment here..." ng-model="commentContent"></textarea>
+        </div>
+        <div class="col-md-12">
+            <input type="submit" value="leave comment" class="btn btn-primary" name="Submit" ng-click="addComment()"/>
+        </div>
+    </form>
+</div>
+<div class="divider"></div>
+<div class="clearfix"></div>
+<div class="comments">
+    <div class="media" ng-repeat="comment in article.comments">
+        <div class="media-avatar">
+            <a href="#"><img src="{{comment.author.image}}" alt="" /></a>
+        </div>
+        <div class="media-body">
+            <div  class="media-heading"><h6><a href="#">{{comment.author.fullName}}</a></h6></div>
+            <p>{{comment.content}}</p>
+            <p><a href="#">Reply</a></p>
+        </div>
+        <div class="media" ng-repeat="reply in comment.replies">
+            <div class="media-avatar">
+                <a href="#"><img src="{{reply.author.image}}" alt="" /></a>
+            </div>
+            <div class="media-body">
+                <div  class="media-heading"><h6><a href="#">{{reply.author.fullName}}</a></h6></div>
+                <p>{{reply.content}}</p>
+            </div>
+        </div>
+    </div>
+</div>

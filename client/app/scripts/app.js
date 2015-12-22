@@ -42,8 +42,12 @@ angular.module('app', [
                 controller: 'SetupCtrl'
             })
             .when('/', {
-                templateUrl: 'views/nodegeeks/landing.html',
-                controller: 'CountdownCtrl'
+                templateUrl: 'views/nodegeeks/blog.html',
+                controller: 'BlogCtrl'
+            })
+            .when('/:slug', {
+                templateUrl: 'views/nodegeeks/article.html',
+                controller: 'ArticleCtrl'
             })
             .otherwise({
                 redirectTo: '/'
@@ -52,8 +56,8 @@ angular.module('app', [
             App.findAll(1).then(function (apps) {
                 $rootScope.app = apps[0];
             });
-
-            var localProfile = LocalStorage.getItem('profile');
+            $rootScope.logout = Auth.logout;
+            var localProfile = LocalStorage.getItem('session');
             if (localProfile) {
                 Auth.validate(localProfile);
             }

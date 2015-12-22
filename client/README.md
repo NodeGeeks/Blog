@@ -1,14 +1,17 @@
-# NodeGeeks Angular App
+# NodeGeeks Blog
 
-This project is used as a base to all of our angular apps.
-
-## Instructions
-
-1. Clone repository into an empty directory
-2. Run bower install and npm install
-3. Edit the 'app' module name, package.json and bower.json file the project specific names.
+Basic Blogging Platform used for NodeGeeks Blog
 
 ## Todo's
 
-* Add documentation for the DS and Auth services
-* Create a yeomon-generator to generate the angular app with multiple prompts and logic to build the bare application structure with minimal services, directives and models
+* Add dashboard section
+* Add create article page
+* Add manage articles page
+* Add scheduling for article posting
+* Add commenting to article (html done)
+* Add reply to comment
+* Add profile page w/ personal message, rating system
+* Add inbox page to display notification, messages, scheduling alerts... and more?
+
+
+Ultimate Goal: Turn this blogging platform into a system where websites can signup to use this platform, more planning is needed, one thing to think of is since we will have one centralized login system for all the applications we build with we will need to a new property to profiles called 'applications' and each 'application' has a belongsTo to the app, along with there app info/settings, things like roles will need to be moved to the application level instead of profile level. 

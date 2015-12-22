@@ -2,7 +2,9 @@
  * Created by aaronrussell on 11/1/15.
  * @Description:
  */
-angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sails) {
+angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sails, LocalStorage, $q, $location) {
+
+    $rootScope.loginRedirect = '/dashboard';
 
     function Auth() {
         this.session = undefined;
@@ -15,24 +17,33 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
 
     Auth.prototype.login = function (login, password) {
         var _auth = this;
-        $sails.request({
-            method: 'post',
-            url: '/login',
-            data: {login: login, password: password}
-        }, function (profile) {
-            _auth.session = $rootScope.session = Profile.Record(profile);
-        }, function (error) {
-            alert(error.message);
+        return $q(function(resolve, reject){
+            $sails.request({
+                method: 'post',
+                url: '/login',
+                data: {login: login, password: password}
+            }, function (profile) {
+                if (profile.code == 403 || profile.code == 404) return Notify.alert(profile.message);
+                if (!profile.isActivated) return Notify.alert('You need to activate your account before logging in.');
+                LocalStorage.setItem('session', profile);
+                _auth.session = $rootScope.session = Profile.Record(profile);
+                $location.url($rootScope.loginRedirect);
+                $rootScope.$apply();
+                resolve(_auth.session);
+            }, function (error) {
+                reject(error);
+            });
         });
     };
 
     Auth.prototype.logout = function () {
         var _auth = this;
-        $rootScope.session.token = '';
-        $rootScope.session.save().then( function() {
+        this.session.token = '';
+        this.session.save().then( function() {
             _auth.session = $rootScope.session = undefined;
+            LocalStorage.removeItem('session');
         }, function(error) {
-            alert(error.message);
+            Notify.alert(error.message);
         });
     };
 
@@ -44,8 +55,9 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
             data: {id: profile.id, token: profile.token}
         }, function (profile) {
             _auth.session = $rootScope.session = Profile.Record(profile);
+            $rootScope.$apply();
         }, function (error) {
-            alert(error.message);
+            Notify.alert(error.message);
         });
     };
 
@@ -60,8 +72,9 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
             data: {id: id, hash: hash, password: password}
         }, function (profile) {
             _auth.session = $rootScope.session = Profile.Record(profile);
+            $rootScope.$apply();
         }, function (error) {
-            alert(error.message);
+            Notify.alert(error.message);
         });
     };
 
@@ -73,14 +86,13 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
         }, function (response) {
             alert(response.code);
         }, function (error) {
-            alert(error.message);
+            Notify.alert(error.message);
         });
     };
 
     Auth.prototype.signup = function (data) {
-        var _auth = this;
         Profile.create(data).then(function(profile) {
-            _auth.session = $rootScope.session = profile;
+            Notify.alert('Activation email has been sent, check your email and active your account before logging in.')
         },function(error) {
             Notify.alert(error.message);
         });

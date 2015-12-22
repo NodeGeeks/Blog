@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-sm-6 col-sm-offset-3">
         <div class="login-content">
-            <h1>{{app.name}} Login</h1>
+            <h1>Login</h1>
             <ng-form name="login">
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" placeholder="Login" class="form-control" ng-model="user"/>
-                        <input type="password" placeholder="Password" class="form-control" ng-model="password"/>
+                        <input type="text" placeholder="Login" class="form-control" ng-model="user" required/>
+                        <input type="password" placeholder="Password" class="form-control" ng-model="password" required/>
                     </div>
                 </div>
                 <div class="row">
@@ -21,10 +21,11 @@
                         <div class="forgot-password">
                             <a href="#recover">Recover password</a>
                         </div>
-                        <button class="btn btn-primary" ng-click="login(user, password)">Sign In</button>
+                        <button ng-class="{'disabled' : login.$invalid}" class="btn btn-primary" ng-click="loginFunc()">Sign In</button>
                     </div>
                 </div>
             </ng-form>
+            <a href="#signup">need an account?</a>
         </div>
         <div class="login-footer">
             <div class="row">
@@ -37,11 +38,6 @@
                             <button class="btn btn-link" ng-click="social('twitter')">Twitter</button>
                         </li>
                     </ul>
-                </div>
-                <div class="col-xs-8">
-                    <div class="login-copyright text-right">
-                        <p>Copyright &copy; {{app.company}}</p>
-                    </div>
                 </div>
             </div>
         </div>

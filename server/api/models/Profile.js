@@ -61,7 +61,7 @@ module.exports = {
             type: 'string'
         },
 
-        isActive: {
+        isActivated: {
             type: 'boolean',
             defaultsTo: false
         },
