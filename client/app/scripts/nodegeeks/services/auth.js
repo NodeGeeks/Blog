@@ -5,11 +5,12 @@
 angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sails, LocalStorage, $q, $location) {
 
     $rootScope.loginRedirect = '/dashboard';
+    $rootScope.logoutRedirect = '/';
 
     function Auth() {
         this.session = undefined;
-        hello.on('auth.login', function(auth) {
-            hello(auth.network).api('/me').then(function(response) {
+        hello.on('auth.login', function (auth) {
+            hello(auth.network).api('/me').then(function (response) {
                 //todo: check the database if this socialAccount exists if it does log them in using it if it does not then create them a profile based off of that information, use a switch statement to parse the different types of networks.
             });
         });
@@ -17,7 +18,7 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
 
     Auth.prototype.login = function (login, password) {
         var _auth = this;
-        return $q(function(resolve, reject){
+        return $q(function (resolve, reject) {
             $sails.request({
                 method: 'post',
                 url: '/login',
@@ -28,7 +29,6 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
                 LocalStorage.setItem('session', profile);
                 _auth.session = $rootScope.session = Profile.Record(profile);
                 $location.url($rootScope.loginRedirect);
-                $rootScope.$apply();
                 resolve(_auth.session);
             }, function (error) {
                 reject(error);
@@ -38,12 +38,18 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
 
     Auth.prototype.logout = function () {
         var _auth = this;
-        this.session.token = '';
-        this.session.save().then( function() {
-            _auth.session = $rootScope.session = undefined;
-            LocalStorage.removeItem('session');
-        }, function(error) {
-            Notify.alert(error.message);
+        return $q(function (resolve, reject) {
+
+            _auth.session.token = '';
+            _auth.session.save().then(function () {
+                _auth.session = $rootScope.session = undefined;
+                LocalStorage.removeItem('session');
+                $location.url($rootScope.logoutRedirect);
+                resolve();
+            }, function (error) {
+                reject();
+                Notify.alert(error.message);
+            });
         });
     };
 
@@ -62,7 +68,7 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
     };
 
     Auth.prototype.verify = function (password) {
-        this.login(this.session.email, password)
+        this.login((this.session.email || this.session.username), password)
     };
 
     Auth.prototype.reset = function (id, hash, password) {
@@ -90,11 +96,32 @@ angular.module('app').service('Auth', function (Profile, $rootScope, Notify, $sa
         });
     };
 
+    Auth.prototype.reset = function (id, password, hash) {
+        return $q(function (resolve, reject) {
+
+            $sails.request({
+                method: 'post',
+                url: '/resetPassword',
+                data: {id: id, password: password, hash: hash}
+            }, function (response) {
+                alert(response.code);
+                resolve()
+            }, function (error) {
+                reject();
+                Notify.alert(error.message);
+            });
+        });
+    };
+
     Auth.prototype.signup = function (data) {
-        Profile.create(data).then(function(profile) {
-            Notify.alert('Activation email has been sent, check your email and active your account before logging in.')
-        },function(error) {
-            Notify.alert(error.message);
+        return $q(function (resolve, reject) {
+            Profile.create(data).then(function (profile) {
+                Notify.alert('Activation email has been sent, check your email and active your account before logging in.')
+                resolve(Profile.Record(profile));
+            }, function (error) {
+                reject();
+                Notify.alert(error.message);
+            });
         });
     };
 

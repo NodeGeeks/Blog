@@ -26,6 +26,7 @@ module.exports = {
                         var preHashedToken = profile.password + new Date().getTime() + sails.config.session.secret;
                         bcrypt.hash(preHashedToken, salt, function (err, hash) {
                             profile.token = hash;
+                            profile.resetPasswordHash = 'unset';
                             profile.save(function (error, response) {
                                 //req.session = profile;
                                 sails.sockets.join(req.socket, response.id);
@@ -55,10 +56,11 @@ module.exports = {
 
             if (err) return res.serverError(err);
             if (!profile) return res.notFound(err);
-            if (req.body.hash == profile.resetPasswordHash) {
+            if (req.body.hash && req.body.hash !== 'unset' && req.body.hash == profile.resetPasswordHash) {
                 bcrypt.genSalt(10, function (err, salt) {
                     bcrypt.hash(req.body.password, salt, function (err, hash) {
                         profile.password = hash;
+                        profile.resetPasswordHash = 'unset';
                         profile.save(function (error, response) {
                             delete response.password;
                             if (error) return res.serverError(error);
@@ -85,8 +87,8 @@ module.exports = {
                         if (error) return res.serverError(error);
                         delete response.password;
                         var emailOptions = {
-                            subject: 'Nautilus - Reset Password',
-                            text: 'Please go to the following link to reset your password ' + global.APPUrl + '/#/resetPassword/' + response.id + '/' + response.resetPasswordHash,
+                            subject: global.app.name + ' - Reset Password',
+                            text: 'Please go to the following link to reset your password ' + global.app.domain + '/#/resetPassword/' + response.id + '/' + response.resetPasswordHash
                         };
                         Email.send(emailOptions.subject, emailOptions.text, response.email);
                         //todo: create callback or promise inside send method to determine if the email successfully sent out or not.

@@ -34,6 +34,7 @@ module.exports = function(config) {
       'bower_components/angular-sails/dist/angular-sails.js',
       'bower_components/angular-css/angular-css.js',
       'bower_components/hello/dist/hello.all.min.js',
+      'bower_components/bootstrap/dist/js/bootstrap.js',
       'bower_components/d3/d3.js',
       'bower_components/nvd3/build/nv.d3.js',
       'bower_components/angular-nvd3/dist/angular-nvd3.js',

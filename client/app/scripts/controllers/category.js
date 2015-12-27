@@ -1,0 +1,13 @@
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name app.controller:ArticleCtrl
+ * @description
+ * # ArticleCtrl
+ * ArticleCtrl of the app
+ */
+angular.module('app')
+        .controller('CategoryCtrl', function ($scope, Article) {
+            $scope.articles = Article.find(25);
+        });
