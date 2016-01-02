@@ -7,7 +7,7 @@
  * # ArticleCtrl
  * ArticleCtrl of the app
  */
-angular.module('app')
+angular.module('blog')
         .controller('ProfileCtrl', function ($scope, $rootScope) {
 
         });

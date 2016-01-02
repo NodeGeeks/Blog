@@ -7,7 +7,7 @@
  * # ArticleCtrl
  * ArticleCtrl of the app
  */
-angular.module('app')
+angular.module('blog')
         .controller('ArticlesCtrl', function ($scope, Article) {
             $scope.articles = Article.find(25);
         });

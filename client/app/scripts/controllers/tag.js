@@ -7,7 +7,7 @@
  * # ArticleCtrl
  * ArticleCtrl of the app
  */
-angular.module('app')
+angular.module('blog')
         .controller('TagCtrl', function ($scope, Article) {
             $scope.articles = Article.find(25);
         });

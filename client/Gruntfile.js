@@ -301,27 +301,27 @@ module.exports = function (grunt) {
         // By default, your `index.html`'s <!-- Usemin block --> will take care of
         // minification. These next options are pre-configured if you do not wish
         // to use the Usemin blocks.
-        // cssmin: {
-        //   dist: {
-        //     files: {
-        //       '<%= yeoman.dist %>/styles/main.css': [
-        //         '.tmp/styles/{,*/}*.css'
-        //       ]
-        //     }
-        //   }
-        // },
-        // uglify: {
-        //   dist: {
-        //     files: {
-        //       '<%= yeoman.dist %>/scripts/scripts.js': [
-        //         '<%= yeoman.dist %>/scripts/scripts.js'
-        //       ]
-        //     }
-        //   }
-        // },
-        // concat: {
-        //   dist: {}
-        // },
+         cssmin: {
+           dist: {
+             files: {
+               '<%= yeoman.dist %>/styles/main.css': [
+                 '.tmp/styles/{,*/}*.css'
+               ]
+             }
+           }
+         },
+         uglify: {
+           dist: {
+             files: {
+               '<%= yeoman.dist %>/scripts/scripts.js': [
+                 '<%= yeoman.dist %>/scripts/scripts.js'
+               ]
+             }
+           }
+         },
+         concat: {
+           dist: {}
+         },
 
         imagemin: {
             dist: {
@@ -365,7 +365,7 @@ module.exports = function (grunt) {
         ngtemplates: {
             dist: {
                 options: {
-                    module: 'app',
+                    module: 'blog',
                     htmlmin: '<%= htmlmin.dist.options %>',
                     usemin: 'scripts/scripts.js'
                 },
@@ -461,7 +461,7 @@ module.exports = function (grunt) {
             'clean:server',
             'wiredep',
             'concurrent:server',
-            'autoprefixer:server',
+            //'autoprefixer:server',
             'connect:livereload',
             'watch'
         ]);
@@ -476,7 +476,7 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep',
         'concurrent:test',
-        'autoprefixer',
+        //'autoprefixer',
         'connect:test',
         'karma'
     ]);
@@ -486,12 +486,12 @@ module.exports = function (grunt) {
         'wiredep',
         'useminPrepare',
         'concurrent:dist',
-        'autoprefixer',
+        //'autoprefixer',
         'ngtemplates',
         'concat',
         'ngAnnotate',
         'copy:dist',
-        'cdnify',
+        //'cdnify',
         'cssmin',
         'uglify',
         'filerev',

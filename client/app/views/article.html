@@ -3,7 +3,7 @@
         <div class="article-meta">
             <div class="meta-author">
                 <i class="fa fa-user fa-2x"></i>
-                <a href="#">{{article.author.fullName}}</a>
+                <a href="#">{{article.author.name}}</a>
             </div>
             <div class="meta-date">
                 <i class="fa fa-calendar fa-2x"></i>
@@ -35,21 +35,21 @@
 <div class="divider"></div>
 <div class="clearfix"></div>
 <div class="comments">
-    <div class="media" ng-repeat="comment in article.comments">
+    <div class="media" ng-repeat="comment in article.comments track by $index">
         <div class="media-avatar">
-            <a href="#"><img src="{{comment.author.image}}" alt="" /></a>
+            <a href="#"><img ng-src="comment.author.image" /></a>
         </div>
         <div class="media-body">
-            <div  class="media-heading"><h6><a href="#">{{comment.author.fullName}}</a></h6></div>
+            <div class="media-heading"><h6><a href="#profile/{{comment.author.username}}">{{comment.author.name}}</a></h6></div>
             <p>{{comment.content}}</p>
             <p><a href="#">Reply</a></p>
         </div>
-        <div class="media" ng-repeat="reply in comment.replies">
+        <div class="media" ng-repeat="reply in comment.replies track by $index">
             <div class="media-avatar">
-                <a href="#"><img src="{{reply.author.image}}" alt="" /></a>
+                <a href="#"><img ng-src="reply.author.image" /></a>
             </div>
             <div class="media-body">
-                <div  class="media-heading"><h6><a href="#">{{reply.author.fullName}}</a></h6></div>
+                <div  class="media-heading"><h6><a href="#profile/{{reply.author.username}}">{{reply.author.name}}</a></h6></div>
                 <p>{{reply.content}}</p>
             </div>
         </div>

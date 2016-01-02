@@ -3,7 +3,7 @@
  * @Description: Model is a wrapper object used to create models that tie in with the NodeGeeks-Sails backend API
  * First the model initiating the Model wrapper
  */
-angular.module('app').factory('Model', function (DS) {
+angular.module('blog').factory('Model', function (DS) {
 
     var Model = DS.Model();
 

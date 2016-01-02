@@ -2,14 +2,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>App</title>
+    <title>Blog</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css"/>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -32,26 +32,19 @@
     <!-- animate -->
     <link href="assets/css/animate.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link href="assets/css/components-md.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link href="assets/css/plugins-md.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="assets/css/custom.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link href="assets/css/layout.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="assets/css/themes/default.css" rel="stylesheet">
+    <link href="assets/css/themes/light.css" rel="stylesheet">
+    <link href="assets/css/custom.css" rel="stylesheet">
 
     <!--[if IE 8]>
     <link href="assets/css/style.ie.css" rel="stylesheet">
     <![endif]-->
     <base href="/">
 </head>
-<body ng-app="app">
+<body ng-app="blog">
 <!--[if lte IE 8]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -92,15 +85,101 @@
                         <img src="assets/img/NodeGeeks%20Logo.png" class="default-logo" alt=""/>
                     </a>
                 </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
+                <div id="navbar" class="navbar-collapse collapse top-menu">
+                    <ul ng-show="session.token" class="nav navbar-nav pull-right">
+                        <li class="separator hide"></li>
+                        <!-- BEGIN NOTIFICATION DROPDOWN -->
+                        <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-menu-hover
+                               data-hover="dropdown" data-close-others="true">
+                                <i class="icon-bell"></i>
+                                <span class="badge badge-success"> {{session.unreadNotifications.length}} </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="external">
+                                    <h3>
+                                        <span class="bold">{{session.unreadNotifications.length}} pending</span>
+                                        notifications</h3>
+                                    <a href="#/dashboard/inbox/notifications">view all</a>
+                                </li>
+                                <li>
+                                    <ul class="dropdown-menu-list scroller" style="height: 250px;"
+                                        data-handle-color="#637283">
+                                        <li ng-repeat="notification in session.notifications track by $index">
+                                            <a href="#{{notification.routePath}}">
+                                                <span class="time">{{notification.timeAgo}}</span>
+                                        <span class="details">
+                                            <span class="label label-sm label-icon label-success">
+                                                <i class="fa fa-plus"></i>
+                                            </span> {{notification.subject}} </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END NOTIFICATION DROPDOWN -->
+                        <li class="separator hide"></li>
+                        <!-- BEGIN INBOX DROPDOWN -->
+                        <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                        <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-menu-hover
+                               data-hover="dropdown" data-close-others="true">
+                                <i class="icon-envelope-open"></i>
+                                <span class="badge badge-danger"> {{session.unreadConversations.length}} </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="external">
+                                    <h3><span class="bold">{{session.unreadConversations.length}} New</span> Messages
+                                    </h3>
+                                    <a href="#/dashboard/inbox/messages">view all</a>
+                                </li>
+                                <li>
+                                    <ul class="dropdown-menu-list scroller" style="height: 275px;"
+                                        data-handle-color="#637283">
+                                        <li ng-repeat="conversation in session.conversations track by $index">
+                                            <a href="#/dashboard/inbox/{{conversation.id}}">
+                                        <span class="photo">
+                                            <img src="" class="img-circle" alt=""> </span>
+                                        <span class="subject">
+                                            <span class="from"
+                                                  ng-repeat="participant in conversation.participants track by $index"> {{participant.name}} </span>
+                                            <span class="time">{{conversation.lastMessage.timeAgo}} </span>
+                                        </span>
+                                                <span class="message"> {{conversation.lastMessage.shortContent}} </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- BEGIN USER LOGIN DROPDOWN -->
+                        <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                        <li class="dropdown dropdown-user">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-menu-hover
+                               data-hover="dropdown" data-close-others="true">
+                                <span class="username username-hide-on-mobile"> {{session.name}} </span></a>
+                            <ul class="dropdown-menu dropdown-menu-default">
+                                <li>
+                                    <a href="#/profile/{{session.username}}">
+                                        <i class="icon-user"></i> Profile </a>
+                                </li>
+                                <li ng-show="session.role == 'author' || session.role == 'admin'"><a href="#/dashboard">Dashboard</a>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="" ng-click="$auth.logout()">
+                                        <i class="icon-key"></i> Log Out </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END USER LOGIN DROPDOWN -->
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" ng-show="!session.token">
                         <li><a href="nodegeeksllc.com">NodeGeeks</a></li>
                         <li><a href="blog.nodegeeksllc.com">Blog</a></li>
-                        <li ng-hide="session"><a href="#login" class="login">Login</a></li>
-                        <li ng-show="session.role == 'author' || session.role == 'admin'"><a href="#dashboard"
-                                                                                             class="login">Dashboard</a>
+                        <li><a href="#login" class="login">Login</a></li>
                         </li>
-                        <li ng-show="session"><a href="" ng-click="$auth.logout()" class="login">Logout</a></li>
                     </ul>
                 </div>
                 <!--/.nav-collapse -->
@@ -141,16 +220,17 @@
                         <div class="widget">
                             <h5>Categories</h5>
                             <ul class="cat">
-                                <li ng-repeat="category in categories"><a href="#category/{{category.slug}}">{{category.name}}</a>
+                                <li ng-repeat="category in categories track by $index"><a
+                                        href="#category/{{category.slug}}">{{category.name}}</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="widget">
                             <h5>Popular product</h5>
                             <ul class="popular-post">
-                                <li ng-repeat="article in featuredArticles">
-                                    <a href="#{{article.slug}}"><img src="{{article.image}}" class="thumb" alt=""/></a>
-                                    <h6 class="product-title"><a href="#profile/{{article.author.username}}">{{article.author.fullName}}</a>
+                                <li ng-repeat="article in featuredArticles track by $index">
+                                    <a href="#{{article.slug}}"><img ng-src="article.image" class="thumb" alt=""/></a>
+                                    <h6 class="product-title"><a href="#profile/{{article.author.username}}">{{article.author.name}}</a>
                                     </h6>
 
                                     <p>
@@ -162,7 +242,8 @@
                         <div class="widget">
                             <h5>Tags</h5>
                             <ul class="tags">
-                                <li ng-repeat="tag in tags"><a href="#tag/{{tag.slug}}"><i class="fa fa-tags"></i>{{tag.name}}</a>
+                                <li ng-repeat="tag in tags track by $index"><a href="#tag/{{tag.slug}}"><i
+                                        class="fa fa-tags"></i>{{tag.name}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -187,7 +268,7 @@
                 <div class="col-md-2 widget">
                     <h5>Category</h5>
                     <ul class="footer-link">
-                        <li ng-repeat="category in categories"><a
+                        <li ng-repeat="category in categories track by $index"><a
                                 href="/#/category/{{category.name}}">{{category.name}}</a>
                         </li>
                     </ul>
@@ -202,7 +283,7 @@
                 <div class="col-md-2 widget">
                     <h5>Tags</h5>
                     <ul class="footer-link">
-                        <li ng-repeat="tag in tags"><a href="/#/tag/{{tag.name}}">{{tag.name}}</a></li>
+                        <li ng-repeat="tag in tags track by $index"><a href="/#/tag/{{tag.name}}">{{tag.name}}</a></li>
                     </ul>
                 </div>
                 <!--<div class="col-md-4">-->
@@ -242,28 +323,28 @@
 
     <!-- END PAGE SPINNER -->
     <!-- BEGIN HEADER -->
-    <div data-ng-include="'assets/layouts/layout4/tpl/header.html'" class="page-header navbar navbar-fixed-top"> </div>
+    <div data-ng-include="'assets/layouts/layout4/tpl/header.html'" class="page-header navbar navbar-fixed-top"></div>
     <!-- END HEADER -->
-    <div class="clearfix"> </div>
+    <div class="clearfix"></div>
     <!-- BEGIN CONTAINER -->
     <div class="page-container">
         <!-- BEGIN SIDEBAR -->
-        <div data-ng-include="'assets/layouts/layout4/tpl/sidebar.html'" class="page-sidebar-wrapper"> </div>
+        <div data-ng-include="'assets/layouts/layout4/tpl/sidebar.html'" class="page-sidebar-wrapper"></div>
         <!-- END SIDEBAR -->
         <div class="page-content-wrapper">
             <div class="page-content">
                 <!-- BEGIN PAGE HEAD -->
-                <div data-ng-include="'assets/layouts/layout4/tpl/page-head.html'" class="page-head"> </div>
+                <div data-ng-include="'assets/layouts/layout4/tpl/page-head.html'" class="page-head"></div>
                 <!-- END PAGE HEAD -->
                 <!-- BEGIN ACTUAL CONTENT -->
-                <div ng-view class="fade-in-up"> </div>
+                <div ng-view class="fade-in-up"></div>
                 <!-- END ACTUAL CONTENT -->
             </div>
         </div>
     </div>
     <!-- END CONTAINER -->
     <!-- BEGIN FOOTER -->
-    <div data-ng-include="'assets/layouts/layout4/tpl/footer.html'" class="page-footer"> </div>
+    <div data-ng-include="'assets/layouts/layout4/tpl/footer.html'" class="page-footer"></div>
     <!-- END FOOTER -->
 </div>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -279,21 +360,28 @@
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="bower_components/angular-touch/angular-touch.js"></script>
 <script src="bower_components/sails.io.js/dist/sails.io.js"></script>
-<script src="bower_components/angular-sails/dist/angular-sails.js"></script>
 <script src="bower_components/angular-css/angular-css.js"></script>
-<script src="bower_components/hello/dist/hello.all.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="bower_components/d3/d3.js"></script>
 <script src="bower_components/nvd3/build/nv.d3.js"></script>
 <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+<script src="bower_components/nodegeeks-angular/dist/nodegeeks-angular-libs.js"></script>
+<script src="bower_components/nodegeeks-angular/dist/nodegeeks-angular-dependencies.js"></script>
+<script src="bower_components/nodegeeks-angular/dist/nodegeeks-angular.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <!-- start template tags -->
 <script type="text/javascript" src="scripts/app.js"></script>
+<script type="text/javascript" src="scripts/assets/angular-file-upload/angular-file-upload.min.js"></script>
 <script type="text/javascript" src="scripts/assets/app.js"></script>
 <script type="text/javascript" src="scripts/assets/bootstrap-hover-dropdown/bootstrap-hover-dropdown.js"></script>
+<script type="text/javascript" src="scripts/assets/datatable.js"></script>
+<script type="text/javascript" src="scripts/assets/datatables/datatables.all.min.js"></script>
+<script type="text/javascript" src="scripts/assets/datatables/datatables.js"></script>
+<script type="text/javascript" src="scripts/assets/datatables/datatables.min.js"></script>
+<script type="text/javascript" src="scripts/assets/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
 <script type="text/javascript" src="scripts/assets/demo.js"></script>
 <script type="text/javascript" src="scripts/assets/excanvas.min.js"></script>
 <script type="text/javascript" src="scripts/assets/html5shiv.min.js"></script>
@@ -308,39 +396,26 @@
 <script type="text/javascript" src="scripts/assets/respond.min.js"></script>
 <script type="text/javascript" src="scripts/assets/totop/jquery.ui.totop.js"></script>
 <script type="text/javascript" src="scripts/assets/totop/setting.js"></script>
+<script type="text/javascript" src="scripts/assets/ui-bootstrap-tpls.min.js"></script>
+<script type="text/javascript" src="scripts/assets/ui-select/select.min.js"></script>
 <script type="text/javascript" src="scripts/assets/uniform/jquery.uniform.min.js"></script>
 <script type="text/javascript" src="scripts/assets/validation.js"></script>
 <script type="text/javascript" src="scripts/controllers/article.js"></script>
-<script type="text/javascript" src="scripts/controllers/article/edit.js"></script>
-<script type="text/javascript" src="scripts/controllers/article/new.js"></script>
+<script type="text/javascript" src="scripts/controllers/articles.js"></script>
+<script type="text/javascript" src="scripts/controllers/auth.js"></script>
 <script type="text/javascript" src="scripts/controllers/blog.js"></script>
+<script type="text/javascript" src="scripts/controllers/categories.js"></script>
+<script type="text/javascript" src="scripts/controllers/category.js"></script>
 <script type="text/javascript" src="scripts/controllers/controller.js"></script>
 <script type="text/javascript" src="scripts/controllers/dashboard.js"></script>
+<script type="text/javascript" src="scripts/controllers/profile.js"></script>
+<script type="text/javascript" src="scripts/controllers/tag.js"></script>
+<script type="text/javascript" src="scripts/controllers/tags.js"></script>
 <script type="text/javascript" src="scripts/models/article.js"></script>
 <script type="text/javascript" src="scripts/models/category.js"></script>
 <script type="text/javascript" src="scripts/models/comment.js"></script>
 <script type="text/javascript" src="scripts/models/model.js"></script>
 <script type="text/javascript" src="scripts/models/tag.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/controllers/auth.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/controllers/setup.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/directives/a.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/directives/dropdown-menu-hover.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/directives/form-wizard-step-input.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/directives/form-wizard-step.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/directives/form-wizard.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/models/app.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/models/conversation.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/models/fileObj.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/models/issue.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/models/message.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/models/notification.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/models/profile.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/models/social.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/services/auth.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/services/ds.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/services/localStorage.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/services/notify.js"></script>
-<script type="text/javascript" src="scripts/nodegeeks/services/settings.js"></script>
 <!-- end template tags -->
 <!-- endbuild -->
 

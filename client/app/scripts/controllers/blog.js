@@ -7,7 +7,7 @@
  * # BlogCtrl
  * BlogCtrl of the app
  */
-angular.module('app')
+angular.module('blog')
         .controller('BlogCtrl', function () {
 
         });

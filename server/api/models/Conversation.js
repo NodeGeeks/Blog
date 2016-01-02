@@ -9,6 +9,10 @@ module.exports = {
 
     attributes: {
 
+        isUnread: {
+            type: 'boolean'
+        },
+
         messages: {
             collection: 'Message',
             via: 'conversation'
@@ -18,7 +22,6 @@ module.exports = {
             collection: 'Profile',
             via: 'conversations'
         }
-
     }
 };
 

@@ -17,6 +17,10 @@ module.exports = {
             type: 'string'
         },
 
+        typeId: {
+            type: 'string'
+        },
+
         content: {
             type: 'string'
         },

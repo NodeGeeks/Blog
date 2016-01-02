@@ -7,7 +7,7 @@
  * # ArticleCtrl
  * ArticleCtrl of the app
  */
-angular.module('app')
+angular.module('blog')
         .controller('DashboardCtrl', function ($scope, $rootScope) {
             $scope.handleSearch = function (evt) {
                 if (!evt.currentTarget.classList.contains('open')) {
@@ -20,20 +20,17 @@ angular.module('app')
 
             };
             $scope.$on('$viewContentLoaded', function () {
-                App.initComponents(); // init core components
-
-                // set default layout mode
-                Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive
+                App.initComponents();
+                Layout.init();
             });
             $scope.$on('$includeContentLoaded', function () {
-                Layout.initHeader(); // init header
-                Layout.initSidebar(); // init sidebar
+                Layout.initHeader();
+                Layout.initSidebar();
                 Demo.init();
             });
 
             $rootScope.$on('$stateChangeSuccess', function() {
-                debugger
-                Layout.setSidebarMenuActiveLink('match'); // activate selected link in the sidebar menu
+                Layout.setSidebarMenuActiveLink('match'); // sets active link in the sidebar menu
             });
 
             $rootScope.settings.layout.pageContentWhite = true;

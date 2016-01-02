@@ -1,9 +1,9 @@
-<article ng-repeat="article in articles">
+<article ng-repeat="article in articles track by $index">
     <div class="post-thumbnail">
         <div class="article-meta">
             <div class="meta-author">
                 <i class="fa fa-user fa-2x"></i>
-                <a href="#">{{article.author.fullName}}</a>
+                <a href="#">{{article.author.name}}</a>
             </div>
             <div class="meta-date">
                 <i class="fa fa-calendar fa-2x"></i>
@@ -14,13 +14,13 @@
                 <a href="#">{{article.comments.length}}</a>
             </div>
         </div>
-        <a href="#"><img src="{{article.image}}" class="img-responsive" alt="" /></a>
+        <a href="#"><img ng-src="article.image" class="img-responsive" alt="" /></a>
     </div>
-    <h4 class="article-heading"><a href="#">{{article.headline}}</a></h4>
+    <h4 class="article-heading"><a href="#{{article.slug}}">{{article.headline}}</a></h4>
     <p>
         {{article.shortContent}}
     </p>
-    <p><a href="/{{article.slug}}" class="btn btn-primary">Read more</a></p>
+    <p><a href="#{{article.slug}}" class="btn btn-primary">Read more</a></p>
 </article>
 
 <div class="row">
