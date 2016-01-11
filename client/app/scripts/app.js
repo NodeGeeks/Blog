@@ -145,7 +145,7 @@ angular.module('blog', [
 
     $rootScope.$on('$locationChangeStart', function (evt, newUrl, oldUrl, newState, oldState) {
         $rootScope.state = newUrl.includes('/dashboard') ? 'dashboard' : '';
-        if ($rootScope.state == 'dashboard' && !$rootScope.session) {
+        if (oldUrl !== newUrl && $rootScope.state == 'dashboard' && !$rootScope.session) {
             $location.url('/');
         }
     });

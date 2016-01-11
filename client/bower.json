@@ -13,7 +13,7 @@
     "angular-css": "~1.0.7",
     "bootstrap": "~3.3.6",
     "angular-nvd3": "~1.0.5",
-    "nodegeeks-angular": "~1.0.0"
+    "nodegeeks-angular": "https://github.com/NodeGeeks/NodeGeeks-Angular.git"
   },
   "devDependencies": {
     "angular-mocks": "^1.3.0"

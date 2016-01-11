@@ -66,8 +66,7 @@ Page Header
       display: block;
       float: left; }
     .page-header.navbar .page-logo .logo-default {
-      margin: 22px 15px 0 0px;
-      max-width: 150px; }
+      margin: 29px 10px 0 10px; }
     .page-header.navbar .page-logo .logo-mini {
       display: none;
       margin-left: 5px; }
