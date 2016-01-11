@@ -55,11 +55,17 @@ angular.module('blog', [
         })
         .when('/dashboard/articles', {
             templateUrl: 'views/dashboard/articles.html',
-            controller: 'ArticlesCtrl'
+            controller: 'ArticlesCtrl',
+            data: {
+                pageTitle: 'Articles'
+            }
         })
         .when('/dashboard/profile', {
             templateUrl: 'views/dashboard/profile.html',
-            controller: 'ProfileCtrl'
+            controller: 'ProfileCtrl',
+            data: {
+                pageTitle: 'Profile'
+            }
         })
         .when('/dashboard/inbox', {
             templateUrl: 'views/dashboard/inbox.html',
@@ -67,51 +73,97 @@ angular.module('blog', [
         })
         .when('/dashboard/inbox/all', {
             templateUrl: 'views/dashboard/inbox/all.html',
-            controller: 'InboxCtrl'
+            controller: 'InboxCtrl',
+            data: {
+                pageTitle: 'Inbox',
+                pageSubTitle: 'All'
+            }
         })
         .when('/dashboard/inbox/messages', {
             templateUrl: 'views/dashboard/inbox/messages.html',
-            controller: 'InboxCtrl'
+            controller: 'InboxCtrl',
+            data: {
+                pageTitle: 'Inbox',
+                pageSubTitle: 'Messages'
+            }
         })
         .when('/dashboard/inbox/notifications', {
             templateUrl: 'views/dashboard/inbox/notifications.html',
-            controller: 'InboxCtrl'
+            controller: 'InboxCtrl',
+            data: {
+                pageTitle: 'Inbox',
+                pageSubTitle: 'Notifications'
+            }
         })
         .when('/dashboard/inbox/:id', {
             templateUrl: 'views/dashboard/inbox/conversation.html',
-            controller: 'ConversationCtrl'
+            controller: 'ConversationCtrl',
+            data: {
+                pageTitle: 'Inbox',
+                pageSubTitle: 'USERNAME'
+            }
         })
         .when('/dashboard/article/:id', {
             templateUrl: 'views/dashboard/article/new.html',
-            controller: 'ArticleCtrl'
+            controller: 'ArticleCtrl',
+            data: {
+                pageTitle: 'Article',
+                pageSubTitle: 'ARTICLE_TITLE'
+            }
         })
         .when('/dashboard/article/new', {
             templateUrl: 'views/dashboard/article/new.html',
-            controller: 'ArticleCtrl'
+            controller: 'ArticleCtrl',
+            data: {
+                pageTitle: 'Article',
+                pageSubTitle: 'New'
+            }
         })
         .when('/dashboard/categories', {
             templateUrl: 'views/dashboard/categories.html',
-            controller: 'CategoriesCtrl'
+            controller: 'CategoriesCtrl',
+            data: {
+                pageTitle: 'Categories'
+            }
         })
         .when('/dashboard/category/:id', {
             templateUrl: 'views/dashboard/category/new.html',
-            controller: 'CategoryCtrl'
+            controller: 'CategoryCtrl',
+            data: {
+                pageTitle: 'Category',
+                pageSubTitle: 'CATEGORY_TITLE'
+            }
         })
         .when('/dashboard/category/new', {
             templateUrl: 'views/dashboard/category/new.html',
-            controller: 'CategoryCtrl'
+            controller: 'CategoryCtrl',
+            data: {
+                pageTitle: 'Category',
+                pageSubTitle: 'New'
+            }
         })
         .when('/dashboard/tags', {
             templateUrl: 'views/dashboard/tags.html',
-            controller: 'TagsCtrl'
+            controller: 'TagsCtrl',
+            data: {
+                pageTitle: 'Tags'
+            }
         })
         .when('/dashboard/tag/:id', {
             templateUrl: 'views/dashboard/tag/new.html',
-            controller: 'TagCtrl'
+            controller: 'TagCtrl',
+            data: {
+                pageTitle: 'Tag',
+                pageSubTitle: 'TAG_TITLE'
+            }
         })
         .when('/dashboard/tag/new', {
             templateUrl: 'views/dashboard/tag/new.html',
-            controller: 'TagCtrl'
+            controller: 'TagCtrl',
+            data: {
+                pageTitle: 'Tag',
+                pageSubTitle: 'New'
+            }
         })
         .when('/setup', {
             templateUrl: 'views/nodegeeks/setup.html',
@@ -139,7 +191,7 @@ angular.module('blog', [
     var localProfile = LocalStorage.getItem('session');
     if (!localProfile && $location.url().includes('/dashboard')) {
         $location.url('/');
-    } else if (localProfile && localProfile.token){
+    } else if (localProfile && localProfile.token) {
         Auth.validate(localProfile);
     }
 
