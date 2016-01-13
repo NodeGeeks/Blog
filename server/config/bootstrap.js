@@ -13,10 +13,9 @@ module.exports.bootstrap = function(cb) {
 
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
-  App.find({}).exec(function(err, app){
-    if (err) return res.serverError(err);
-    if (!app) return res.notFound(err);
-    global.app = app[0];
-  });
+  global.app = {
+      name: 'blog',
+      domain: 'blog.com'
+  }
   cb();
 };
